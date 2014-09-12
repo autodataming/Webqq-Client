@@ -31,14 +31,21 @@ sub Webqq::Client::send_message{
         clientid => $self->{qq_param}{clientid},
         psessionid  => $self->{qq_param}{psessionid},
     );
-        
+    
+    my $post_content = [
+        r           =>  to_json(\%s),
+        clientid    =>  $self->{qq_param}{clientid},
+        psessionid  =>  $self->{qq_param}{psessionid}
+    ];
+    if($self->{debug}){
+        require URI;
+        my $uri = URI->new('http:');
+        $uri->query_form($post_content);    
+        print $uri->query(),"\n";
+    }
     $ua->post(
         $api_url,
-        [   
-            r           =>  to_json(\%s),
-            clientid    =>  $self->{qq_param}{clientid},
-            psessionid  =>  $self->{qq_param}{psessionid}
-        ],
+        $post_content,
         @headers,
         $callback,
     );

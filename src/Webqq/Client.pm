@@ -1,5 +1,5 @@
 package Webqq::Client;
-our $VERSION = v1.0;
+our $VERSION = v1.1;
 use LWP::UserAgent;
 use AnyEvent::UserAgent;
 use Webqq::Client::Method::_prepare_for_login;
@@ -12,6 +12,7 @@ use Webqq::Client::Method::_recv_message;
 use Webqq::Client::Method::send_message;
 use Webqq::Client::Method::_get_group_info;
 use Webqq::Client::Method::_get_user_info;
+use Webqq::Client::Method::send_group_message;
 sub new {
     my $class = shift;
     my %p = @_;
@@ -83,6 +84,15 @@ sub new {
 
     return bless $self;
 }
+sub on_send_message :lvalue {
+    my $self = shift;
+    $self->{on_send_message};
+}
+
+sub on_receive_message :lvalue{
+    my $self = shift;
+    $self->{on_receive_message};
+}
 
 sub login{
     my $self = shift;
@@ -113,6 +123,7 @@ sub _get_friends_list_info;
 sub _get_discuss_list_info;
 sub change_status;
 sub send_message;
+sub send_group_message;
 sub show_message;
 sub logout;
 sub run {
