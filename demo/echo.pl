@@ -3,8 +3,6 @@ use Webqq::Client;
 use Digest::MD5 qw(md5_hex);
 my $qq = 12345678;
 my $pwd = md5_hex('your password');
-#my $qq = 12345678;
-#my $pwd = md5_hex('your password');
 my $client = Webqq::Client->new(debug=>1);
 $client->login( qq=> $qq, pwd => $pwd);
 $client->on_receive_message = sub{
